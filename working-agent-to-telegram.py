@@ -16,7 +16,7 @@ class ContextPrompt(Model):
 class Response(Model):
     text: str
 
-AGENT_MAILBOX_KEY = "c47b2ef5-5750-439c-9eb9-efe08a5af8bf"
+AGENT_MAILBOX_KEY = "MAILBOX_KEY"
 SEED_PHRASE = "bike test"
 
 agent = Agent(
@@ -27,7 +27,7 @@ agent = Agent(
 fund_agent_if_low(agent.wallet.address())
 print(agent.address)
 
-AI_AGENT_ADDRESS = "agent1q0h70caed8ax769shpemapzkyk65uscw4xwk6dc4t3emvp5jdcvqs9xs32y"
+AI_AGENT_ADDRESS = "AGENT_ADRESS"
 
 boolie = Agent(name="boolie", seed="boolie recovery phrase") #he initiates the question and listens for return
 bob = Agent(name="bob", seed="bob recovery phrase") #he talks to telegram if needed
@@ -63,8 +63,8 @@ async def handle_response(ctx: Context, sender: str, msg: Response):
 
 
 
-bot_token = "8182349154:AAG2LT6gGfUHVs2fRXdbtmIaGWqqVPUjI18"
-chat_id=978673064
+bot_token = "TG_TOKEN"
+chat_id=CHAT_ID
 
 
 async def send_tg(msg, chat_id, token=bot_token):
