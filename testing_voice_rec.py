@@ -5,7 +5,7 @@ import wavio as wv
 
 def voicetotext():
     client = OpenAI(
-        api_key='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')
+        api_key='API_KEY')
     # Sampling frequency
     freq = 44100
     
@@ -34,7 +34,7 @@ def voicetotext():
     print(transcription.text)
     return transcription.text
 
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='API_KEY')
 
 
 def live_chat():
@@ -61,9 +61,6 @@ def live_chat():
     # Extract and display the assistant's response
     assistant_message = completion.choices[0].message.content
     return assistant_message
-
-    # Add ChatGPT's response to the conversation history
-    #conversation_history.append({"role": "assistant", "content": assistant_message})
 
 # Start the chat
 #live_chat()
