@@ -1,9 +1,9 @@
-import io  # Importing the io module for input/output operations (though not used here)
+import io  
 import contextlib
-from dotenv import load_dotenv  # Importing load_dotenv to load environment variables from a .env file
-from google.cloud import videointelligence  # Importing the Video Intelligence API client from Google Cloud
+from google.cloud import videointelligence  
+from google.cloud import storage
 
-def main():
+def main(file_name):
     # Create a Video Intelligence client
     video_client = videointelligence.VideoIntelligenceServiceClient()
 
@@ -14,7 +14,7 @@ def main():
     ]
     
     # Specify the URI of the video file in Google Cloud Storage
-    media_file = "gs://whack-mp4/mountain_biking1.mp4"
+    media_file = f'gs://whack-mp4/{file_name}'
 
     # Start the video annotation operation
     operation = video_client.annotate_video(
@@ -88,11 +88,32 @@ def main():
                 )
             )
         print('\n')  # Print a newline for better readability between different objects
+        
+def choose_media():
+    bucket_name = 'whack-mp4'
+    client = storage.Client()
+    bucket = client.get_bucket(bucket_name)
+    blobs = list(bucket.list_blobs())
+    print(f"Files in bucket {bucket_name}:")
+
+    for num, blob in enumerate(blobs, start=1):
+        print(f"{num}. {blob.name}")
+
+    while True:
+        try:
+            user_choice = int(input("Choose a file number: ")) - 1
+            file_name = blobs[user_choice].name
+            return file_name
+        except IndexError:
+            print("Invalid number. Please choose a number from the list above.")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
 
 if __name__ == '__main__':
-    load_dotenv('credentials.env')  # Load the environment variables from the specified .env file
-    main()  # Call the main function to execute the video annotation process
+    file_name = choose_media()
+    main(file_name)
+
     # Redirect all prints to agent_message.txt
     with open("agent_message.txt", "w") as f:
         with contextlib.redirect_stdout(f):
-            main()
+            main(file_name)
